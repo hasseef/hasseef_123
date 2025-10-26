@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>منصة حصيف — ملف واحد (index.html)</title>
+<style>
+  :root{--primary:#5aa044;--accent:#f8be43;--bg:#0b1220;--line:rgba(255,255,255,.08);--text:#e2e8f0;--muted:#94a3b8}
+  *{box-sizing:border-box} html,body{height:100%}
+  body{margin:0;background:linear-gradient(180deg,#0a0f1b,#0b1220 40%,#0b1220);color:var(--text);
+       font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Noto Kufi Arabic","Helvetica Neue",Arial}
+  header{position:sticky;top:0;z-index:30;background:rgba(10,15,27,.78);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .wrap{max-width:1200px;margin:0 auto;padding:14px}
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo{width:40px;height:40px;border-radius:12px;background:conic-gradient(from 0deg,var(--accent) 0 40%,var(--primary) 40% 100%);box-shadow:0 4px 24px rgba(90,160,68,.45)}
+  h1{margin:0;font-size:clamp(18px,2.2vw,28px)} h2{margin:0 0 6px 0}
+  nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  nav a{color:#bfead0;text-decoration:none;border:1px solid var(--line);padding:6px 10px;border-radius:10px}
+  main{padding:18px 0}
+  .card{background:linear-gradient(180deg,rgba(255,255,255,.03),transparent);border:1px solid var(--line);border-radius:14px;padding:14px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .between{justify-content:space-between;align-items:center}
+  .muted{color:var(--muted)}
+  select,input,textarea,button{border-radius:10px;border:1px solid var(--line);background:#0b1220;color:var(--text);padding:10px}
+  textarea{width:100%;min-height:120px}
+  button{background:var(--primary);border:none;color:#052e16;cursor:pointer}
+  button.secondary{background:#0b1220;color:var(--text);border:1px solid var(--line)}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+  .tab{padding:8px 10px;border-radius:10px;border:1px solid var(--line);cursor:pointer;background:#0b1220}
+  .tab.active{background:var(--primary);color:#052e16;border-color:transparent}
+  .hidden{display:none !important}
+  table{width:100%;border-collapse:collapse} th,td{padding:10px;border-bottom:1px solid var(--line);text-align:right}
+  .tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:999px;border:1px solid var(--line);gap:6px;background:#0b1220;font-size:12px;color:#cbd5e1}
+  .section{margin-top:16px}
+  .two{display:grid;grid-template-columns:1fr;gap:14px}
+  @media(min-width:960px){ .two{grid-template-columns:1.1fr .9fr} }
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:#0b1220;color:#cbd5e1;font-size:12px}
+  .warn{color:#fde68a}
+  .ok{color:#86efac}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo"></div>
+      <div>
+        <h1>منصة حصيف — كاملة في ملف واحد</h1>
+        <div class="muted">قاعدة بيانات محلية (IndexedDB) + صلاحيات كاملة + جميع الخدمات — مع تصدير/استيراد القاعدة وطباعـة التقرير.</div>
+      </div>
+    </div>
+    <nav class="row">
+      <a href="#app">المنصة</a>
+      <a href="#vision">رؤية 2030</a>
+      <a href="#consulting">الاستشارات</a>
+      <a href="#tools">أدوات الإدارة</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- ===================== APP ===================== -->
+  <section id="app" class="card">
+    <div class="row between">
+      <h2 style="margin:0">المنصة التفاعلية (بدون خادم)</h2>
+      <span class="pill">بيانات محفوظة محليًا (IndexedDB) — يمكنك التصدير/الاستيراد</span>
+    </div>
+    <div class="row between section">
+      <div class="row">
+        <label>الدور الحالي:</label>
+        <select id="role"></select>
+        <button id="signAs">تسجيل الدخول</button>
+        <span id="activeUser" class="tag">غير مسجل</span>
+      </div>
+      <div class="row">
+        <input id="search" placeholder="ابحث في الجداول" />
+        <button class="secondary" id="reset">إعادة الضبط</button>
+      </div>
+    </div>
+
+    <div class="tabs" id="tabs"></div>
+    <div id="views"></div>
+  </section>
+
+  <!-- Vision -->
+  <section id="vision" class="card section">
+    <div class="row between">
+      <h2 style="margin:0">رؤية 2030 — الربط والتقرير</h2>
+      <span class="pill">P1..P5</span>
+    </div>
+    <div id="visionBox" class="section"></div>
+  </section>
+
+  <!-- Consulting -->
+  <section id="consulting" class="card section">
+    <div class="row between">
+      <h2 style="margin:0">الاستشارات — طلبات/مستشارون/جلسات</h2>
+      <span class="pill">صلاحيات: request/apply/review/report</span>
+    </div>
+    <div id="consultBox" class="section"></div>
+  </section>
+
+  <!-- Tools -->
+  <section id="tools" class="card section">
+    <div class="row between">
+      <h2 style="margin:0">أدوات الإدارة (Export / Import / Print)</h2>
+    </div>
+    <div class="row section">
+      <button class="secondary" id="exportDb">تصدير قاعدة البيانات (JSON)</button>
+      <input type="file" id="importDbFile" accept="application/json">
+      <button id="importBtn">استيراد</button>
+      <button class="secondary" onclick="window.print()">طباعة</button>
+    </div>
+    <div id="log" class="muted" style="margin-top:8px"></div>
+  </section>
+
+  <footer class="section" style="opacity:.7;font-size:12px;border-top:1px solid var(--line);padding-top:12px">
+    © منصة حصيف — ملف واحد للتشغيل والعرض والتسليم.
+  </footer>
+</main>
+
+<script>
+/* ============= DB (IndexedDB) ============= */
+const DB_NAME = 'hasif-idb'; const DB_VER = 1;
+const STORES = ['users','projects','events','opps','donations','facilities','bookings','speakers','solutions','partnerships','visionGoals','visionLinks','consultants','consultRequests','consultSessions'];
+let idb=null;
+
+function openDB(){ return new Promise((resolve,reject)=>{
+  const req = indexedDB.open(DB_NAME, DB_VER);
+  req.onupgradeneeded = (e)=>{
+    const db = e.target.result;
+    STORES.forEach(s=>{ if(!db.objectStoreNames.contains(s)) db.createObjectStore(s,{keyPath:'id'}) });
+  };
+  req.onsuccess = ()=> resolve(req.result);
+  req.onerror = ()=> reject(req.error);
+});}
+
+async function tx(store, mode='readonly'){ if(!idb) idb = await openDB(); return idb.transaction(store, mode).objectStore(store); }
+async function getAll(store){ const s=await tx(store); return new Promise(res=>{ const r=s.getAll(); r.onsuccess=()=>res(r.result||[]) }); }
+async function put(store, obj){ const s=await tx(store,'readwrite'); return new Promise(res=>{ s.put(obj); s.transaction.oncomplete=()=>res(obj) }); }
+async function bulkPut(store, arr){ for(const o of arr) await put(store,o) }
+async function removeDb(){ if(idb) idb.close(); return new Promise((res,rej)=>{ const r = indexedDB.deleteDatabase(DB_NAME); r.onsuccess=()=>res(); r.onerror=()=>rej(r.error) }); }
+
+/* ============= Helpers ============= */
+const ROLES = ['INDIVIDUAL','PRIVATE','NONPROFIT','GOVERNMENT','UNIVERSITY','DONOR','TRAINER','INCUBATOR','DEVELOPMENT_AUTHORITY'];
+const RBAC = {
+  INDIVIDUAL: ['project.read','event.read','opportunity.read','donation.read','donation.create','facility.read','booking.create','speaker.apply','volunteer.apply','consulting.request'],
+  PRIVATE: ['project.create','project.read','event.create','event.read','opportunity.create','opportunity.read','donation.read','donation.create','facility.read','booking.create','solution.create','partnership.create','consulting.request'],
+  NONPROFIT: ['project.create','project.read','event.create','event.read','opportunity.create','opportunity.read','donation.read','facility.read','booking.create','solution.create','partnership.create','consulting.request'],
+  GOVERNMENT: ['project.read','event.create','event.read','speaker.review','facility.read','booking.review','vision.link','vision.report','solution.review','partnership.review','consulting.review','consulting.report'],
+  UNIVERSITY: ['project.read','event.create','event.read','opportunity.create','opportunity.read','vision.link','solution.review','consulting.apply','consulting.request'],
+  DONOR: ['donation.read','donation.create','project.read','vision.report','consulting.request'],
+  TRAINER: ['event.read','opportunity.create','opportunity.read','consulting.apply'],
+  INCUBATOR: ['opportunity.create','solution.create','partnership.create','consulting.apply'],
+  DEVELOPMENT_AUTHORITY: ['project.read','event.review','speaker.review','facility.review','booking.review','vision.link','vision.report','solution.review','partnership.review','consulting.review','consulting.report']
+};
+function uuid(){ return crypto.randomUUID() }
+function can(...perms){ if(!auth.user) return false; const allow = RBAC[auth.user.role]||[]; return perms.every(p=> allow.includes(p)); }
+function show(el, ok){ el.classList.toggle('hidden', !ok) }
+function fmt(d){ try{ return new Date(d).toLocaleString('ar-SA') }catch{return d} }
+
+/* ============= Seed ============= */
+async function seed(){
+  const users = await getAll('users'); if(users.length) return;
+  const roleUsers = ROLES.map(r=>({id:uuid(), email:r.toLowerCase()+'@demo.local', fullName:r+' User', role:r}));
+  await bulkPut('users', roleUsers);
+  const nonprofit = roleUsers.find(u=>u.role==='NONPROFIT');
+  const government = roleUsers.find(u=>u.role==='GOVERNMENT');
+  const university = roleUsers.find(u=>u.role==='UNIVERSITY');
+  const donor = roleUsers.find(u=>u.role==='DONOR');
+  await bulkPut('projects',[
+    { id:uuid(), title:'مشروع تمكين الأسر المنتجة', description:'برنامج دعم وتمويل للأسر المنتجة.', budget:250000, status:'ACTIVE', ownerId: nonprofit.id },
+    { id:uuid(), title:'مبادرة التدريب التعاوني', description:'ربط الطلاب بفرص تدريب ميداني.', budget:120000, status:'ACTIVE', ownerId: nonprofit.id }
+  ]);
+  await bulkPut('events',[
+    { id:uuid(), title:'ملتقى التنمية الوطنية', description:'فعالية تجمع القطاعات والشركاء.', date:new Date().toISOString(), location:'حائل', ownerId: government.id }
+  ]);
+  await bulkPut('opps',[
+    { id:uuid(), kind:'TRAINING', title:'تدريب تعاوني — علوم حاسب', description:'برنامج 12 أسبوعًا', postedById: university.id },
+    { id:uuid(), kind:'VOLUNTEER', title:'فرصة تطوع — فعالية مجتمعية', description:'تنظيم واستقبال', postedById: university.id }
+  ]);
+  await bulkPut('donations',[{ id:uuid(), donorId: donor.id, projectId: null, amount: 5000, createdAt: new Date().toISOString() }]);
+  await bulkPut('facilities',[{ id:uuid(), name:'قاعة المؤتمرات الرئيسية', location:'حائل', capacity:400, price:0, ownerId: government.id }]);
+  await bulkPut('visionGoals',[
+    { id:uuid(), code:'P1', title:'تعزيز فاعلية الحكومة', level:'strategic' },
+    { id:uuid(), code:'P2', title:'تمكين المسؤولية الاجتماعية', level:'strategic' },
+    { id:uuid(), code:'P3', title:'تنمية وتنويع الاقتصاد', level:'strategic' },
+    { id:uuid(), code:'P4', title:'تمكين حياة عامرة وصحية', level:'strategic' },
+    { id:uuid(), code:'P5', title:'تعزيز الهوية الوطنية', level:'strategic' },
+  ]);
+  await bulkPut('consultants',[]); await bulkPut('consultRequests',[]); await bulkPut('consultSessions',[]);
+}
+
+/* ============= Auth ============= */
+let auth = { user:null };
+async function setUserByRole(role){
+  const users = await getAll('users');
+  auth.user = users.find(u=>u.role===role) || null;
+  document.getElementById('activeUser').textContent = auth.user ? `${auth.user.fullName} — ${auth.user.role}` : 'غير مسجل';
+  renderAll();
+}
+
+/* ============= UI binding ============= */
+const roleSel = document.getElementById('role'); ROLES.forEach(r=>{ const o=document.createElement('option'); o.value=r; o.textContent=r; roleSel.appendChild(o) });
+document.getElementById('signAs').onclick = ()=> setUserByRole(roleSel.value);
+document.getElementById('reset').onclick = async ()=>{ await removeDb(); idb=null; await openDB(); await seed(); renderAll(); log('تمت إعادة الضبط') };
+document.getElementById('search').addEventListener('input', renderAll);
+
+/* ============= Tabs ============= */
+const TABS = [
+  { id:'projects', title:'المشاريع' },
+  { id:'events', title:'الفعاليات' },
+  { id:'opps', title:'الفرص: وظائف/تدريب/تطوع' },
+  { id:'donations', title:'التبرعات' },
+  { id:'facilities', title:'المرافق' },
+  { id:'bookings', title:'الحجوزات' },
+  { id:'speakers', title:'المتحدثون' },
+  { id:'solutions', title:'الحلول' },
+  { id:'partnerships', title:'الشراكات' },
+  { id:'consult_requests', title:'الاستشارات — الطلبات' },
+  { id:'consultants', title:'الاستشارات — المستشارون' },
+  { id:'consult_sessions', title:'الاستشارات — الجلسات' },
+  { id:'v2030', title:'تقارير رؤية 2030' },
+];
+const tabsEl = document.getElementById('tabs'); const viewsEl = document.getElementById('views'); let activeTab = 'projects';
+TABS.forEach(t=>{ const b=document.createElement('button'); b.className='tab' + (t.id===activeTab?' active':''); b.textContent=t.title; b.onclick = ()=>{ activeTab=t.id; renderTabs(); renderViews(); }; tabsEl.appendChild(b); });
+function renderTabs(){ Array.from(tabsEl.children).forEach((c,i)=> c.classList.toggle('active', TABS[i].id===activeTab)); }
+const q = ()=> document.getElementById('search').value.trim().toLowerCase();
+const match = (obj)=> !q() || JSON.stringify(obj).toLowerCase().includes(q());
+function table(headers, rows){ const t=document.createElement('table'); const thead=document.createElement('thead'); const tr=document.createElement('tr'); headers.forEach(h=>{ const th=document.createElement('th'); th.textContent=h; tr.appendChild(th) }); thead.appendChild(tr); t.appendChild(thead); const tbody=document.createElement('tbody'); rows.forEach(r=>tbody.appendChild(r)); t.appendChild(tbody); return t; }
+function rowForm(fields, onSubmit){ const f=document.createElement('div'); f.className='row'; fields.forEach(x=>f.appendChild(x)); const btn=document.createElement('button'); btn.textContent='حفظ'; btn.onclick=onSubmit; f.appendChild(btn); return f; }
+
+/* ============= Views ============= */
+async function viewProjects(){
+  const box = document.createElement('div');
+  const items = await getAll('projects');
+  const rows = items.filter(match).map(p=>{ const tr=document.createElement('tr'); [p.title,p.description,p.budget,p.status,p.id].forEach(v=>{ const td=document.createElement('td'); td.textContent=v; tr.appendChild(td) }); return tr; });
+  box.appendChild(table(['العنوان','الوصف','الميزانية','الحالة','ID'], rows));
+  const area = document.createElement('div'); area.className='section'; show(area, can('project.create'));
+  const a = Object.assign(document.createElement('input'),{placeholder:'العنوان'});
+  const b = Object.assign(document.createElement('input'),{placeholder:'الوصف'});
+  const c = Object.assign(document.createElement('input'),{type:'number',placeholder:'الميزانية'});
+  area.appendChild(rowForm([a,b,c], async()=>{ if(!can('project.create'))return; await put('projects',{ id:uuid(), title:a.value, description:b.value, budget:Number(c.value)||0, status:'ACTIVE', ownerId:auth.user.id }); renderViews(); }));
+  box.appendChild(area); return box;
+}
+async function viewEvents(){
+  const box=document.createElement('div'); const items=await getAll('events');
+  const rows=items.filter(match).map(p=>{ const tr=document.createElement('tr'); [p.title,p.description,fmt(p.date),p.location,p.id].forEach(v=>{ const td=document.createElement('td'); td.textContent=v; tr.appendChild(td) }); return tr; });
+  box.appendChild(table(['العنوان','الوصف','التاريخ','الموقع','ID'], rows));
+  const area=document.createElement('div'); area.className='section'; show(area, can('event.create'));
+  const a=Object.assign(document.createElement('input'),{placeholder:'العنوان'});
+  const b=Object.assign(document.createElement('input'),{placeholder:'الوصف'});
+  const c=Object.assign(document.createElement('input'),{type:'datetime-local'});
+  const d=Object.assign(document.createElement('input'),{placeholder:'الموقع'});
+  area.appendChild(rowForm([a,b,c,d], async()=>{ if(!can('event.create'))return; await put('events',{ id:uuid(), title:a.value, description:b.value, date:new Date(c.value).toISOString(), location:d.value, ownerId:auth.user.id }); renderViews(); }));
+  box.appendChild(area); return box;
+}
+async function viewOpps(){
+  const box=document.createElement('div'); const items=await getAll('opps');
+  const rows=items.filter(match).map(p=>{ const tr=document.createElement('tr'); [p.kind,p.title,p.description,p.id].forEach(v=>{ const td=document.createElement('td'); td.textContent=v; tr.appendChild(td) }); return tr; });
+  box.appendChild(table(['النوع','العنوان','الوصف','ID'], rows));
+  const area=document.createElement('div'); area.className='section'; show(area, can('opportunity.create'));
+  const kind=document.createElement('select'); ['JOB','TRAINING','VOLUNTEER'].forEach(k=>{ const o=document.createElement('option'); o.value=k; o.textContent=k; kind.appendChild(o); });
+  const a=Object.assign(document.createElement('input'),{placeholder:'العنوان'});
+  const b=Object.assign(document.createElement('input'),{placeholder:'الوصف'});
+  area.appendChild(rowForm([kind,a,b], async()=>{ if(!can('opportunity.create'))return; await put('opps',{ id:uuid(), kind:kind.value, title:a.value, description:b.value, postedById:auth.user.id }); renderViews(); }));
+  box.appendChild(area); return box;
+}
+async function viewDonations(){
+  const box=document.createElement('div'); const items=await getAll('donations'); const projects=await getAll('projects'); const users=await getAll('users');
+  const rows=items.filter(match).map(d=>{ const tr=document.createElement('tr'); const proj=projects.find(p=>p.id===d.projectId)||{title:'—'}; const donor=users.find(u=>u.id===d.donorId)||{fullName:'—'}; [proj.title, donor.fullName, d.amount, fmt(d.createdAt), d.id].forEach(v=>{ const td=document.createElement('td'); td.textContent=v; tr.appendChild(td) }); return tr; });
+  box.appendChild(table(['المشروع','المتبرع','المبلغ','التاريخ','ID'], rows));
+  const area=document.createElement('div'); area.className='section'; show(area, can('donation.create'));
+  const sel=document.createElement('select'); (await getAll('projects')).forEach(p=>{ const o=document.createElement('option'); o.value=p.id; o.textContent=p.title; sel.appendChild(o) });
+  const amt=Object.assign(document.createElement('input'),{type:'number',placeholder:'المبلغ'});
+  area.appendChild(rowForm([sel,amt], async()=>{ if(!can('donation.create'))return; await put('donations',{ id:uuid(), donorId:auth.user.id, projectId:sel.value, amount:Number(amt.value)||0, createdAt:new Date().toISOString() }); renderViews(); }));
+  box.appendChild(area); return box;
+}
+async function viewFacilities(){
+  const box=document.createElement('div'); const items=await getAll('facilities');
+  const rows=items.filter(match).map(f=>{ const tr=document.createElement('tr'); [f.name,f.location,f.capacity,f.price,f.id].forEach(v=>{ const td=document.createElement('td'); td.textContent=v; tr.appendChild(td) }); return tr; });
+  box.appendChild(table(['الاسم','الموقع','السعة','السعر','ID'], rows));
+  const area=document.createElement('div'); area.className='section'; show(area, can('facility.review'));
+  const a=Object.assign(document.createElement('input'),{placeholder:'الاسم'});
+  const b=Object.assign(document.createElement('input'),{placeholder:'الموقع'});
+  const c=Object.assign(document.createElement('input'),{type:'number',placeholder:'السعة'});
+  const d=Object.assign(document.createElement('input'),{type:'number',placeholder:'السعر'});
+  area.appendChild(rowForm([a,b,c,d], async()=>{ if(!can('facility.review'))return; await put('facilities',{ id:uuid(), name:a.value, location:b.value, capacity:Number(c.value)||0, price:Number(d.value)||0, ownerId:auth.user.id }); renderViews(); }));
+  box.appendChild(area); return box;
+}
+async function viewBookings(){
+  const box=document.createElement('div'); const items=await getAll('bookings'); const facilities=await getAll('facilities');
+  const rows=items.filter(match).map(b=>{ const tr=document.createElement('tr'); const fac=facilities.find(f=>f.id===b.facilityId)||{name:'—'}; [fac.name, fmt(b.dateFrom), fmt(b.dateTo), b.status, b.id].forEach(v=>{ const td=document.createElement('td'); td.textContent=v; tr.appendChild(td) }); const td=document.createElement('td'); const ok=document.createElement('button'); ok.textContent='اعتماد'; ok.onclick=async()=>{ if(!can('booking.review'))return; b.status='APPROVED'; await put('bookings', b); renderViews(); }; const no=document.createElement('button'); no.textContent='رفض'; no.className='secondary'; no.onclick=async()=>{ if(!can('booking.review'))return; b.status='REJECTED'; await put('bookings', b); renderViews(); }; td.appendChild(ok); td.appendChild(no); tr.appendChild(td); if(!can('booking.review')) td.classList.add('hidden'); return tr; });
+  box.appendChild(table(['المرفق','من','إلى','الحالة','ID','مراجعة'], rows));
+  const area=document.createElement('div'); area.className='section'; show(area, can('booking.create'));
+  const sel=document.createElement('select'); (await getAll('facilities')).forEach(f=>{ const o=document.createElement('option'); o.value=f.id; o.textContent=f.name; sel.appendChild(o) });
+  const a=Object.assign(document.createElement('input'),{type:'datetime-local'});
+  const b=Object.assign(document.createElement('input'),{type:'datetime-local'});
+  area.appendChild(rowForm([sel,a,b], async()=>{ if(!can('booking.create'))return; await put('bookings',{ id:uuid(), facilityId:sel.value, requesterId:auth.user.id, dateFrom:new Date(a.value).toISOString(), dateTo:new Date(b.value).toISOString(), status:'PENDING' }); renderViews(); }));
+  box.appendChild(area); return box;
+}
+async function viewSpeakers(){
+  const box=document.createElement('div'); const items=await getAll('speakers');
+  const rows=items.filter(match).map(s=>{ const tr=document.createElement('tr'); [s.fullName,s.field||'',s.status,s.id].forEach(v=>{ const td=document.createElement('td'); td.textContent=v; tr.appendChild(td) }); const td=document.createElement('td'); const ok=document.createElement('button'); ok.textContent='اعتماد'; ok.onclick=async()=>{ if(!can('speaker.review'))return; s.status='APPROVED'; await put('speakers', s); renderViews(); }; const no=document.createElement('button'); no.textContent='رفض'; no.className='secondary'; no.onclick=async()=>{ if(!can('speaker.review'))return; s.status='REJECTED'; await put('speakers', s); renderViews(); }; td.appendChild(ok); td.appendChild(no); tr.appendChild(td); if(!can('speaker.review')) td.classList.add('hidden'); return tr; });
+  box.appendChild(table(['الاسم','التخصص','الحالة','ID','مراجعة'], rows));
+  const area=document.createElement('div'); area.className='section'; show(area, can('speaker.apply'));
+  const a=Object.assign(document.createElement('input'),{placeholder:'الاسم الكامل'});
+  const b=Object.assign(document.createElement('input'),{placeholder:'التخصص'});
+  const c=Object.assign(document.createElement('textarea'),{placeholder:'نبذة'});
+  area.appendChild(rowForm([a,b,c], async()=>{ if(!can('speaker.apply'))return; await put('speakers',{ id:uuid(), fullName:a.value, field:b.value, bio:c.value, status:'PENDING' }); renderViews(); }));
+  box.appendChild(area); return box;
+}
+async function viewSolutions(){
+  const box=document.createElement('div'); const items=await getAll('solutions');
+  const rows=items.filter(match).map(s=>{ const tr=document.createElement('tr'); [s.title,s.description,s.status,s.id].forEach(v=>{ const td=document.createElement('td'); td.textContent=v; tr.appendChild(td) }); const td=document.createElement('td'); const sel=document.createElement('button'); sel.textContent='اعتماد كحل مختار'; sel.onclick=async()=>{ if(!can('solution.review'))return; s.status='SELECTED'; await put('solutions', s); renderViews(); }; td.appendChild(sel); tr.appendChild(td); if(!can('solution.review')) td.classList.add('hidden'); return tr; });
+  box.appendChild(table(['العنوان','الوصف','الحالة','ID','مراجعة'], rows));
+  const area=document.createElement('div'); area.className='section'; show(area, can('solution.create'));
+  const a=Object.assign(document.createElement('input'),{placeholder:'العنوان'});
+  const b=Object.assign(document.createElement('textarea'),{placeholder:'الوصف'});
+  area.appendChild(rowForm([a,b], async()=>{ if(!can('solution.create'))return; await put('solutions',{ id:uuid(), title:a.value, description:b.value, submittedById:auth.user.id, status:'NEW' }); renderViews(); }));
+  box.appendChild(area); return box;
+}
+async function viewPartnerships(){
+  const box=document.createElement('div'); const items=await getAll('partnerships');
+  const rows=items.filter(match).map(p=>{ const tr=document.createElement('tr'); [p.title,p.parties,p.status,p.id].forEach(v=>{ const td=document.createElement('td'); td.textContent=v; tr.appendChild(td) }); const td=document.createElement('td'); const act=document.createElement('button'); act.textContent='تفعيل الشراكة'; act.onclick=async()=>{ if(!can('partnership.review'))return; p.status='ACTIVE'; await put('partnerships', p); renderViews(); }; td.appendChild(act); tr.appendChild(td); if(!can('partnership.review')) td.classList.add('hidden'); return tr; });
+  box.appendChild(table(['العنوان','الأطراف (JSON)','الحالة','ID','مراجعة'], rows));
+  const area=document.createElement('div'); area.className='section'; show(area, can('partnership.create'));
+  const a=Object.assign(document.createElement('input'),{placeholder:'العنوان'});
+  const b=Object.assign(document.createElement('input'),{placeholder:'الأطراف (JSON)'});
+  area.appendChild(rowForm([a,b], async()=>{ if(!can('partnership.create'))return; await put('partnerships',{ id:uuid(), title:a.value, parties:b.value||'[]', status:'PROPOSED', ownerId:auth.user.id }); renderViews(); }));
+  box.appendChild(area); return box;
+}
+
+/* ======== Vision ======== */
+async function renderVision(){
+  const box=document.getElementById('visionBox'); box.innerHTML='';
+  const goals = await getAll('visionGoals'); const links = await getAll('visionLinks');
+  const agg={}; goals.forEach(g=> agg[g.id]={projects:0,events:0,opps:0});
+  links.forEach(l=>{ if(l.entity==='PROJECT') agg[l.goalId].projects++; if(l.entity==='EVENT') agg[l.goalId].events++; if(l.entity==='OPPORTUNITY') agg[l.goalId].opps++; });
+  const rows=goals.map(g=>{ const tr=document.createElement('tr'); const a=agg[g.id]||{projects:0,events:0,opps:0}; [`[${g.code}] ${g.title}`,a.projects,a.events,a.opps].forEach(v=>{ const td=document.createElement('td'); td.textContent=v; tr.appendChild(td) }); return tr; });
+  box.appendChild(table(['الهدف','مشاريع','فعاليات','فرص'], rows));
+
+  const ctrl=document.createElement('div'); ctrl.className='section card';
+  const canLink = can('vision.link'); const canReport = can('vision.report') || can('project.read');
+  if(!canReport){ const p=document.createElement('p'); p.textContent='ليس لديك صلاحية عرض تقارير الرؤية.'; ctrl.appendChild(p); box.appendChild(ctrl); return; }
+  const entity=document.createElement('select'); ['PROJECT','EVENT','OPPORTUNITY'].forEach(v=>{ const o=document.createElement('option'); o.value=v; o.textContent=v; entity.appendChild(o) });
+  const id=Object.assign(document.createElement('input'),{placeholder:'ID الكيان',style:'width:200px'});
+  const goal=document.createElement('select'); goals.forEach(g=>{ const o=document.createElement('option'); o.value=g.id; o.textContent=`[${g.code}] ${g.title}`; goal.appendChild(o)});
+  const btn=document.createElement('button'); btn.textContent='ربط الهدف'; show(btn, canLink);
+  btn.onclick=async()=>{ await put('visionLinks',{ id:uuid(), entity:entity.value, entityId:id.value.trim(), goalId:goal.value }); renderVision(); };
+  ctrl.appendChild(rowForm([entity,id,goal],()=>btn.onclick())); box.appendChild(ctrl);
+}
+
+/* ======== Consulting ======== */
+async function renderConsult(){
+  const box=document.getElementById('consultBox'); box.innerHTML='';
+  // quick stats
+  const reqs = await getAll('consultRequests'); const sessions=await getAll('consultSessions');
+  const total=reqs.length, news=reqs.filter(r=>r.status==='NEW').length, assigned=reqs.filter(r=>r.status==='ASSIGNED').length, done=reqs.filter(r=>r.status==='COMPLETED').length;
+  const stat=document.createElement('div'); stat.innerHTML = `<span class="pill">الطلبات: ${total}</span> <span class="pill warn">جديدة: ${news}</span> <span class="pill">مُسندة: ${assigned}</span> <span class="pill ok">منجزة: ${done}</span> <span class="pill">جلسات: ${sessions.length}</span>`; box.appendChild(stat);
+
+  // Consultants
+  const cons=await getAll('consultants');
+  const consRows=cons.filter(match).map(c=>{ const tr=document.createElement('tr'); [c.fullName,c.expertise||'',c.status,c.id].forEach(v=>{ const td=document.createElement('td'); td.textContent=v; tr.appendChild(td) }); return tr; });
+  box.appendChild(document.createElement('hr')); const h1=document.createElement('h3'); h1.textContent='المستشارون'; box.appendChild(h1);
+  box.appendChild(table(['الاسم','الخبرة','الحالة','ID'], consRows));
+  const consArea=document.createElement('div'); consArea.className='section'; const canApply=can('consulting.apply')||can('consulting.review'); show(consArea,canApply);
+  const a=Object.assign(document.createElement('input'),{placeholder:'الاسم الكامل'});
+  const b=Object.assign(document.createElement('input'),{placeholder:'الخبرة/المجال'});
+  const c=Object.assign(document.createElement('textarea'),{placeholder:'نبذة'});
+  consArea.appendChild(rowForm([a,b,c], async()=>{ if(!canApply)return; await put('consultants',{ id:uuid(), fullName:a.value, expertise:b.value, bio:c.value, status:'PENDING' }); renderConsult(); }));
+  box.appendChild(consArea);
+
+  // Requests
+  const users=await getAll('users'); const canReview=can('consulting.review');
+  const myId=auth.user?.id;
+  const reqRows=reqs.filter(r=> canReview || r.requesterId===myId).filter(match).map(r=>{ const tr=document.createElement('tr'); const reqBy=users.find(u=>u.id===r.requesterId)||{fullName:'—'}; [r.topic,r.description||'',r.preferredTime||'',r.status,reqBy.fullName,r.id].forEach(v=>{ const td=document.createElement('td'); td.textContent=v; tr.appendChild(td) }); return tr; });
+  box.appendChild(document.createElement('hr')); const h2=document.createElement('h3'); h2.textContent='طلبات الاستشارة'; box.appendChild(h2);
+  box.appendChild(table(['الموضوع','الوصف','الوقت المفضل','الحالة','طالب الخدمة','ID'], reqRows));
+  const reqArea=document.createElement('div'); reqArea.className='section'; const canReq=can('consulting.request'); show(reqArea, canReq);
+  const r1=Object.assign(document.createElement('input'),{placeholder:'الموضوع'});
+  const r2=Object.assign(document.createElement('textarea'),{placeholder:'الوصف'});
+  const r3=Object.assign(document.createElement('input'),{placeholder:'الوقت المفضل (ISO)'});
+  reqArea.appendChild(rowForm([r1,r2,r3], async()=>{ if(!canReq)return; await put('consultRequests',{ id:uuid(), requesterId:auth.user.id, topic:r1.value, description:r2.value, preferredTime:r3.value, status:'NEW', createdAt:new Date().toISOString() }); renderConsult(); }));
+  box.appendChild(reqArea);
+
+  // Sessions (reviewers only)
+  const sessRows=sessions.filter(match).map(s=>{ const tr=document.createElement('tr'); [s.requestId,s.consultantId,s.scheduledAt||'',s.durationMin||60,s.notes||'',s.id].forEach(v=>{ const td=document.createElement('td'); td.textContent=v; tr.appendChild(td) }); return tr; });
+  box.appendChild(document.createElement('hr')); const h3=document.createElement('h3'); h3.textContent='جلسات الاستشارة'; box.appendChild(h3);
+  box.appendChild(table(['ID الطلب','ID المستشار','التاريخ','المدة (د)','ملاحظات','ID'], sessRows));
+  const sessArea=document.createElement('div'); sessArea.className='section'; show(sessArea, canReview);
+  const s1=Object.assign(document.createElement('input'),{placeholder:'ID الطلب'});
+  const s2=Object.assign(document.createElement('input'),{placeholder:'ID المستشار'});
+  const s3=Object.assign(document.createElement('input'),{placeholder:'التاريخ (ISO)'});
+  const s4=Object.assign(document.createElement('input'),{type:'number',placeholder:'المدة بالدقائق'});
+  const s5=Object.assign(document.createElement('textarea'),{placeholder:'ملاحظات'});
+  sessArea.appendChild(rowForm([s1,s2,s3,s4,s5], async()=>{ if(!canReview)return; await put('consultSessions',{ id:uuid(), requestId:s1.value, consultantId:s2.value, scheduledAt:s3.value, durationMin:Number(s4.value)||60, notes:s5.value, createdAt:new Date().toISOString() }); renderConsult(); }));
+  box.appendChild(sessArea);
+}
+
+/* ======== Views binding ======== */
+async function renderViews(){
+  viewsEl.innerHTML='';
+  let view;
+  if(activeTab==='projects') view = await viewProjects();
+  if(activeTab==='events') view = await viewEvents();
+  if(activeTab==='opps') view = await viewOpps();
+  if(activeTab==='donations') view = await viewDonations();
+  if(activeTab==='facilities') view = await viewFacilities();
+  if(activeTab==='bookings') view = await viewBookings();
+  if(activeTab==='speakers') view = await viewSpeakers();
+  if(activeTab==='solutions') view = await viewSolutions();
+  if(activeTab==='partnerships') view = await viewPartnerships();
+  if(activeTab==='consult_requests' || activeTab==='consultants' || activeTab==='consult_sessions' || activeTab==='v2030'){
+    // fallthrough, render below
+  }
+  if(view) viewsEl.appendChild(view);
+  if(['consult_requests','consultants','consult_sessions'].includes(activeTab)) await renderConsult();
+  if(activeTab==='v2030') await renderVision();
+}
+function renderAll(){ renderTabs(); renderViews(); }
+
+/* ======== Export/Import ======== */
+function log(msg){ document.getElementById('log').textContent = msg }
+document.getElementById('exportDb').onclick = async()=>{
+  const dump={}; for(const s of STORES){ dump[s] = await getAll(s) }
+  const blob = new Blob([JSON.stringify(dump,null,2)], {type:'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'hasif_db.json'; a.click(); URL.revokeObjectURL(a.href);
+  log('تم تصدير القاعدة');
+};
+document.getElementById('importBtn').onclick = async()=>{
+  const f = document.getElementById('importDbFile').files[0]; if(!f) return log('اختر ملف JSON أولاً');
+  const txt = await f.text(); let obj={}; try{ obj = JSON.parse(txt) }catch{ return log('JSON غير صالح') }
+  await removeDb(); idb=null; await openDB();
+  for(const s of STORES){ if(Array.isArray(obj[s])) await bulkPut(s, obj[s]) }
+  log('تم الاستيراد بنجاح'); renderAll();
+};
+
+/* ======== Init ======== */
+(async ()=>{
+  await openDB(); await seed();
+  await setUserByRole('GOVERNMENT'); // default
+})();
+</script>
+</body>
+</html>
